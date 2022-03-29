@@ -36,11 +36,11 @@ module.exports = ({strapi}) => ({
         }
       };
     }
-    if (recaptcha_verify.data.score < strapi.config.get('plugin.ezforms.captchaProvider.config.score')) {
+    if (recaptcha_verify.data.score < strapi.config.get('plugin.ezforms.captchaProvider.config.minimumScore')) {
       return {
         error: {
           valid: false,
-          message: "Score Not High Enough",
+          message: "ReCAPTCHA score too low",
           code: 400
         }
       };

@@ -12,7 +12,7 @@ module.exports = {
         strapi.log.error(verification.error)
         if (verification.error.code === 500) {
           return ctx.badRequest("ReCAPTCHA verification has failed: " + verification.error.message)
-        } else if (verification.code === 400) {
+        } else if (verification.error.code === 400) {
           return ctx.badRequest(verification.error.message)
         } else {
           return ctx.internalServerError("Internal server error")
