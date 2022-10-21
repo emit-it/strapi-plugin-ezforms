@@ -1,18 +1,18 @@
 'use strict'
-module.exports = ({strapi}) => ({
-  async send(config, data){
-    let recipients = await strapi.query('plugin::ezforms.recipient').findMany();
-    let message = ""
+module.exports = ({ strapi }) => ({
+  async send(config, formName, data) {
+    let recipients = await strapi.query('plugin::ezforms.recipient').findMany()
+    let message = ''
     function transformData(key, data) {
       switch (key) {
         case 'email':
-          return `<a href="mailto:${data}" target="_blank">${data}</a>`;
+          return `<a href="mailto:${data}" target="_blank">${data}</a>`
         default:
-          return data;
+          return data
       }
     }
     //Loop through data and construct message from data object
-    for(let key in data){
+    for (let key in data) {
       message += `<strong>${key}</strong>: ${transformData(key, data[key])}<br />`
     }
     //loop through the recipients and send an email
@@ -30,8 +30,4 @@ module.exports = ({strapi}) => ({
     }
 
   }
-
-
 })
-
-
