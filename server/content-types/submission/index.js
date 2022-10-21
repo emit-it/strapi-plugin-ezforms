@@ -25,9 +25,15 @@ module.exports = {
       max: 50,
       configurable: false
     },
+    formName: {
+      type: 'string',
+      min: 1,
+      max: 50,
+      configurable: false
+    },
     data: {
       type: 'json',
       configurable: false
     }
   }
-};
+}

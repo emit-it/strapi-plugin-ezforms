@@ -1,40 +1,38 @@
-'use strict';
-const axios = require("axios");
+'use strict'
+const axios = require('axios')
 module.exports = ({strapi}) => ({
   async validate(token) {
     if (!token) {
       strapi.log.error('Missing Recaptcha Token')
       return {
-        error: {
-          valid: false,
-          message: "Missing token",
-        }
-      };
+        valid: false,
+        message: 'Missing token',
+        code: 400
+      }
     }
     const secret_key = strapi.config.get('plugin.ezforms.captchaProvider.config.secretKey')
-    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`;
-    let recaptcha_verify;
+    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`
+    let recaptcha_verify
     try {
-      recaptcha_verify = await axios.post(url);
+      recaptcha_verify = await axios.post(url)
     } catch (e) {
       strapi.log.error(e)
       return {
-        error: {
-          valid: false,
-          message: "Unable to verify captcha",
-          code: 500
-        }
-      };
+
+        valid: false,
+        message: 'Unable to verify captcha',
+        code: 500
+
+      }
     }
+
     if (!recaptcha_verify.data.success) {
       strapi.log.error('recaptcha_verify')
       return {
-        error: {
-          valid: false,
-          message: "Unable to verify captcha",
-          code: 500
-        }
-      };
+        valid: false,
+        message: 'Unable to verify captcha',
+        code: 500
+      }
     }
     if (recaptcha_verify.data.score < strapi.config.get('plugin.ezforms.captchaProvider.config.minimumScore')) {
       return {
@@ -48,7 +46,7 @@ module.exports = ({strapi}) => ({
     return {
       score: recaptcha_verify.data.score,
       valid: true
-    };
+    }
   },
 })
-;
+

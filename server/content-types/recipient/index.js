@@ -38,4 +38,4 @@ module.exports = {
       configurable: false
     }
   }
-};
+}
